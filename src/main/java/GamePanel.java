@@ -1,8 +1,11 @@
 package main.java;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -22,7 +25,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     int appleX;
     int appleY;
-    
+
     char direction = 'R';
 
     boolean running = false;
@@ -30,13 +33,30 @@ public class GamePanel extends JPanel implements ActionListener {
     Timer timer;
     Random random;
 
+    private Image backgroundImage;
+
     GamePanel() {
         random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        this.setBackground(Color.black);
+        // this.setBackground(Color.black);
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
+        loadBackgroundTexture("..\\..\\..\\images\\grass.png");
         startGame();
+    }
+    
+    public void loadBackgroundTexture(String filename) {
+        try{
+            this.backgroundImage = ImageIO.read(new File(filename)).getScaledInstance(SCREEN_WIDTH, SCREEN_HEIGHT, Image.SCALE_REPLICATE);
+        }  catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Could not load background texture!",
+               "Graphics Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Could not load background texture");
+            // close app
+            Container parent = this.getParent();
+            Window win = SwingUtilities.getWindowAncestor(parent);
+            win.dispose();
+        }
     }
 
     public void startGame(){
@@ -54,6 +74,8 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void draw(Graphics g) {
         if(running){
+            // draw background 
+            g.drawImage(backgroundImage, 0, 0, this);
             // draw grid lines
             for (int i = 0; i < SCREEN_HEIGHT / UNIT_SIZE; i++){
                 g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_HEIGHT);
@@ -79,6 +101,7 @@ public class GamePanel extends JPanel implements ActionListener {
             g.drawString("Score: " + applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
             
         } else {
+            // draw game over screen
             gameOver(g);
         }
     }
