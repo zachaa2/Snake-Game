@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements ActionListener {
     int appleX;
     int appleY;
 
-    char direction = 'R';
+    Direction direction = Direction.RIGHT;
 
     boolean running = false;
 
@@ -38,7 +38,6 @@ public class GamePanel extends JPanel implements ActionListener {
     GamePanel() {
         random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        // this.setBackground(Color.black);
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         loadBackgroundTexture("..\\..\\..\\images\\grass.png");
@@ -118,16 +117,16 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 
         switch(direction){
-            case 'U':
+            case UP:
                 y[0] = y[0] - UNIT_SIZE;
                 break;
-            case 'D':
+            case DOWN:
                 y[0] = y[0] + UNIT_SIZE;
                 break;
-            case 'L':
+            case LEFT:
                 x[0] = x[0] - UNIT_SIZE;
                 break;
-            case 'R':
+            case RIGHT:
                 x[0] = x[0] + UNIT_SIZE;
                 break;
         }
@@ -182,23 +181,23 @@ public class GamePanel extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e){
             switch(e.getKeyCode()){
                 case KeyEvent.VK_LEFT:
-                    if(direction != 'R'){
-                        direction = 'L';
+                    if(direction != Direction.RIGHT){
+                        direction = Direction.LEFT;
                     }
                     break;
                 case KeyEvent.VK_RIGHT:
-                    if (direction != 'L') {
-                        direction = 'R';
+                    if (direction != Direction.LEFT) {
+                        direction = Direction.RIGHT;
                     }
                     break;
                 case KeyEvent.VK_UP:
-                    if (direction != 'D'){
-                        direction = 'U';
+                    if (direction != Direction.DOWN){
+                        direction = Direction.UP;
                     }
                     break;
                 case KeyEvent.VK_DOWN:
-                    if (direction != 'U'){
-                        direction = 'D';
+                    if (direction != Direction.UP){
+                        direction = Direction.DOWN;
                     }
                     break;
             }
