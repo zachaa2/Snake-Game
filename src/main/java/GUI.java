@@ -17,7 +17,7 @@ public class GUI {
 
     public void renderTitleScreen(){
         this.mainFrame.setVisible(true);
-        this.mainFrame.add(new IntroPanel());
+        this.mainFrame.add(this.titleScreen);
     }
 
     public void renderGameBoard() {
