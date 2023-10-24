@@ -29,6 +29,7 @@ public class GamePanel extends JPanel implements ActionListener {
     Direction direction = Direction.RIGHT;
 
     boolean running = false;
+    boolean isSnakeDead = false;
 
     Timer timer;
     Random random;
@@ -41,7 +42,7 @@ public class GamePanel extends JPanel implements ActionListener {
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         loadBackgroundTexture("..\\..\\..\\images\\grass.png");
-        startGame();
+        this.setBackground(Color.black);
     }
     
     public void loadBackgroundTexture(String filename) {
@@ -60,6 +61,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void startGame(){
         running = true;
+        isSnakeDead = false;
         newApple();
         timer = new Timer(DELAY, this);
         timer.start();
@@ -98,10 +100,13 @@ public class GamePanel extends JPanel implements ActionListener {
             g.setFont(new Font("Ink Free", Font.BOLD, 40));
             FontMetrics metrics = getFontMetrics(g.getFont());
             g.drawString("Score: " + applesEaten, (SCREEN_WIDTH - metrics.stringWidth("Score: " + applesEaten)) / 2, g.getFont().getSize());
-            
-        } else {
+
+        }
+        else if (isSnakeDead) {
             // draw game over screen
             gameOver(g);
+        } else {
+            this.setBackground(Color.green);
         }
     }
 
@@ -146,14 +151,17 @@ public class GamePanel extends JPanel implements ActionListener {
         for (int i = bodyParts; i > 0; i--){
             if ((x[0] == x[i]) && (y[0] == y[i])) {
                 running = false;
+                isSnakeDead = true;
             }
         }
         // check head collision with game border
         if ((x[0] < 0) || (x[0] > SCREEN_WIDTH)){
             running = false;
+            isSnakeDead = true;
         }
         if ((y[0] < 0) || (y[0] > SCREEN_HEIGHT)){
             running = false;
+            isSnakeDead = true;
         }
         if (!running){
             timer.stop();

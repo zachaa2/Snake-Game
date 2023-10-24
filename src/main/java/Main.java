@@ -4,7 +4,8 @@ public class Main {
 
     public static void main(String[] args){
         
-        new GameFrame();
+        GUI gui = new GUI();
+        gui.renderTitleScreen();
         
     }
 
