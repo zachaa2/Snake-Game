@@ -25,7 +25,6 @@ class IntroPanel extends JPanel {
         g.setFont(new Font("Ink Free", Font.BOLD, 40));
         FontMetrics metrics = getFontMetrics(g.getFont());
         g.drawString("Snake Game", (SCREEN_WIDTH - metrics.stringWidth("Snake Game")) / 2, g.getFont().getSize());
-        
     }
 
 
